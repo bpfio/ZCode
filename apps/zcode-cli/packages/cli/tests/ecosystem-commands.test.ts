@@ -180,3 +180,11 @@ test("TASK-25: zcode office command usage execution", async () => {
   const out = ctx.stdout.output();
   assert.ok(out.includes("office") || out.includes("Office"));
 });
+
+test("TASK-30: zcode upgrade command check execution", async () => {
+  const ctx = createContext(["upgrade", "check"]);
+  const exitCode = await run(ctx);
+  assert.equal(exitCode, 0);
+  const out = ctx.stdout.output();
+  assert.ok(out.includes("升级中心") || out.includes("版本"));
+});

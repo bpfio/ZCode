@@ -49,6 +49,7 @@ import { runReplCommand } from "./commands/repl-command.js";
 import { runDocsCommand } from "./commands/docs-command.js";
 import { runRemoteCommand } from "./commands/remote-command.js";
 import { runOfficeCommand } from "./commands/office-command.js";
+import { runUpgradeCommand } from "./commands/upgrade-command.js";
 import {
   DEFAULT_CLI_WORKFLOW_MODE,
   normalizeWorkflowModeOption,
@@ -698,6 +699,9 @@ export const run = async (ctx: RunContext, deps: RunDependencies = {}): Promise<
       return await runRemoteCommand(ctx, options, parsed.positionals.slice(1));
     case "office":
       return await runOfficeCommand(ctx, options, parsed.positionals.slice(1));
+    case "upgrade":
+    case "update":
+      return await runUpgradeCommand(ctx, options, parsed.positionals.slice(1));
     case "tui":
       return await runTuiCommand(
         ctx,

@@ -907,6 +907,7 @@ exceptions:
       - apps/zcode-cli/packages/cli/src/commands/speedup-command.ts
       - apps/zcode-cli/packages/cli/src/commands/sync-command.ts
       - apps/zcode-cli/packages/cli/src/commands/team-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/upgrade-command.ts
       - apps/zcode-cli/packages/cli/src/commands/worktree-command.ts
       - apps/zcode-cli/packages/cli/src/ecosystem/coding-plan-client.ts
     reason: ZCode CLI ecosystem and runtime expansion subcommands implementing the 25-module Golden Plan.

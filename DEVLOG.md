@@ -13,6 +13,7 @@
 
 | ID | 状态 | 类型 | 标题 | commit | 备注 |
 |---|---|---|---|---|---|
+| TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | HEAD | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |
 | TASK-29 | wontfix | feat | [已剔除] 生成式 UI 动态表单交互 (Gen-UI) |  | 用户明确裁决剔除：字符终端无法原生渲染React富交互组件，保持Unix极简原则 |
 | TASK-28 | wontfix | feat | [已剔除] 多媒体终端渲染与预览 |  | 用户明确裁决剔除：多数SSH终端无图形协议支持，强行渲染容易导致满屏Base64乱码 |
 | TASK-27 | wontfix | feat | [已剔除] Browser Use 无头浏览器控制插件 |  | 用户明确裁决剔除：强依赖数百兆Chromium与数十个C动态库，在云服务器或Docker极易崩溃 |
