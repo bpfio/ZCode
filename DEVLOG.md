@@ -9,10 +9,11 @@
 
 ---
 
-## 一、任务台账 (30)
+## 一、任务台账 (31)
 
 | ID | 状态 | 类型 | 标题 | commit | 备注 |
 |---|---|---|---|---|---|
+| TASK-32 | closed | perf | 优化 TUI 流式打字机 25ms 批处理、V8 编译磁盘缓存并补齐 /exit 与 /quit 命令 | ab95e88a | 217/217 TUI unit tests pass, bundle size 14.5MB, bump release to v3.16.5 |
 | TASK-31 | closed | feat | 上游母体 7x24h 自动化同步巡检工作流与邮件告警机制 (.github/workflows/sync-upstream.yml) | 0fcfaf5c | cron daily, merge isolation, Issue & failure email alert, 20/20 tests passing |
 | TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | 1b52366e | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |
 | TASK-29 | wontfix | feat | [已剔除] 生成式 UI 动态表单交互 (Gen-UI) |  | 用户明确裁决剔除：字符终端无法原生渲染React富交互组件，保持Unix极简原则 |

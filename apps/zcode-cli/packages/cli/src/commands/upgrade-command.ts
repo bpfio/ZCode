@@ -41,7 +41,7 @@ export async function runUpgradeCommand(
   options: GlobalOptions,
   args: readonly string[] = [],
 ): Promise<number> {
-  const currentVersion = process.env.ZCODE_CLI_VERSION || (typeof __CLI_VERSION__ === "string" && !__CLI_VERSION__.startsWith("0.") ? __CLI_VERSION__ : "3.16.4");
+  const currentVersion = process.env.ZCODE_CLI_VERSION || (typeof __CLI_VERSION__ === "string" && !__CLI_VERSION__.startsWith("0.") ? __CLI_VERSION__ : "3.16.5");
   const checkOnly = args.includes("check") || args.includes("--check") || args.includes("status") || args.includes("-c");
 
   ctx.stdout.write("=== ZCode CLI 自动化版本与升级中心 ===\n");
