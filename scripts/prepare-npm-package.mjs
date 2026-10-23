@@ -28,7 +28,7 @@ if (fs.existsSync(nmDir)) {
   }
 }
 
-pkg.name = "@bpfio-yp/zcode";
+pkg.name = "@clid/zcode";
 pkg.version = "3.16.3";
 pkg.private = false;
 pkg.description = "Official full-featured ZCode AI Coding Workbench (TUI, Web & Agent Runtime)";
@@ -44,7 +44,7 @@ console.log(`[npm-prepare] updated ${pkgJsonPath} with ${bundled.length} bundled
 const readmePath = path.join(pkgDir, "README.md");
 fs.writeFileSync(
   readmePath,
-  `# ZCode (@bpfio-yp/zcode)
+  `# ZCode (@clid/zcode)
 
 Official full-featured distribution of ZCode AI Coding Workbench.
 
@@ -57,7 +57,7 @@ Official full-featured distribution of ZCode AI Coding Workbench.
 ## Installation
 
 \`\`\`bash
-npm install -g @bpfio-yp/zcode
+npm install -g @clid/zcode
 \`\`\`
 
 ## Quick Start

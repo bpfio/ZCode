@@ -1,17 +1,38 @@
-# ZCode
+# ZCode CLI
 
 <div align="center">
-  <img src="public/logo/icons/1024x1024.png" alt="ZCode" width="128" height="128" />
+  <img src="public/logo/icons/1024x1024.png" alt="ZCode CLI" width="128" height="128" />
+  <p><strong>Official full-featured distribution of ZCode AI Coding Workbench</strong></p>
+  <p>
+    <a href="https://www.npmjs.com/package/@clid/zcode"><img src="https://img.shields.io/npm/v/@clid/zcode?color=blue&label=NPM%20Package" alt="npm" /></a>
+    <a href="ROADMAP.md"><img src="https://img.shields.io/badge/Roadmap-16%20Modules-green" alt="Roadmap" /></a>
+  </p>
 </div>
-<p align="center">
-  <a href="https://applink.feishu.cn/client/chat/chatter/add_by_link?link_token=47ag983c-8fcb-4d6d-814b-5395193a712c&amp;qr_code=true">飞书社群</a> ·
-  <a href="https://discord.gg/z9aBcQXZQ3">Discord</a>
-</p>
-<p align="center">
-  简体中文 | <a href="README.en.md">English</a>
-</p>
 
-ZCode 是 AI 编程工作台，提供桌面应用、浏览器界面和终端 Agent。本仓库包含客户端、后端服务、共享 UI，以及 Agent CLI 与运行时源码。
+ZCode CLI 是专为极客开发者打造的终端 AI 编程工作台（包含全屏 TUI 终端、`zcode --web` 浏览器界面、后台 Daemon 守护与智谱闲时算力调度），分发为 [`@clid/zcode`](https://www.npmjs.com/package/@clid/zcode)。本仓库持有完整工程底座，支持自行编译独立单二进制（SEA）与深度定制。
+
+> 📌 **路线图与模块装配状态**：请参阅 [ROADMAP.md](ROADMAP.md) 查看包含“智谱免费积分申领”、“闲时无人值守算力排队”在内的 16 大模块装配进度。
+
+## 极速安装与使用
+
+### 1. NPM 全局安装（首选）
+
+```bash
+npm install -g @clid/zcode
+```
+
+### 2. 快速启动
+
+```bash
+# 1. 启动全屏交互式终端 (TUI)
+zcode
+
+# 2. 启动浏览器完整工作区 (Web Workspace)
+zcode --web
+
+# 3. 命令行静默执行
+zcode --prompt "分析项目并修复所有 Lint 报错" --mode yolo
+```
 
 ## 更新
 
