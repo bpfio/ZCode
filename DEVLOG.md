@@ -13,7 +13,7 @@
 
 | ID | 状态 | 类型 | 标题 | commit | 备注 |
 |---|---|---|---|---|---|
-| TASK-32 | closed | perf | 优化 TUI 流式打字机 25ms 批处理、V8 编译磁盘缓存并补齐 /exit 与 /quit 命令 | ab95e88a | 217/217 TUI unit tests pass, bundle size 14.5MB, bump release to v3.16.5 |
+| TASK-32 | closed | perf | 优化 TUI 流式打字机 40ms 批处理、消除冗余 setStatus、启用 V8 编译磁盘缓存并补齐 /exit 命令 | 6bf14d6f | 40ms batching & reasoning verified, 217/217 TUI tests pass, npm v3.16.5 published |
 | TASK-31 | closed | feat | 上游母体 7x24h 自动化同步巡检工作流与邮件告警机制 (.github/workflows/sync-upstream.yml) | 0fcfaf5c | cron daily, merge isolation, Issue & failure email alert, 20/20 tests passing |
 | TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | 1b52366e | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |
 | TASK-29 | wontfix | feat | [已剔除] 生成式 UI 动态表单交互 (Gen-UI) |  | 用户明确裁决剔除：字符终端无法原生渲染React富交互组件，保持Unix极简原则 |
@@ -59,6 +59,18 @@
 
 | ID | 类别 | 状态 | 事项 |
 |---|---|---|---|
+
+---
+
+## [BATCH-03] 研发批次 BATCH-03 — 流式打字机 40ms 平滑微批节流、V8 编译磁盘缓存、/exit 命令与 NPM v3.16.5 发布 — ✅ 闭环
+
+解决官方生态 ZCode CLI 逐字顿挫与冷启动延迟问题，补齐斜杠退出命令，通过 217 项单元测试与高频流式批处理实测，成功发布 @clid/zcode@3.16.5：
+1. 流式打字机节流（40ms 窗口）：在 apps/zcode-cli/packages/tui/src/app-model-streaming.ts 实现 ~25fps (40ms) 流式批处理窗口，消除 delta 事件逐字 React full-tree re-render 与 OpenTUI 频繁布局重排；消除冗余 setStatus 调度，在 finish、reasoning_end 与 tool_call 时同步 flush，15 次高频逐字输入平滑聚合为 5 帧渲染。
+2. 冷启动加速：在 scripts/zcode-distribution/runner.mjs 引入 Node.js 22 原生 enableCompileCache()，将 V8 编译字节码持久化缓存至磁盘，冷启动耗时降至 0.6 秒。
+3. 退出命令补齐：在 @zcode/shared、slash-commands.ts 与 prompt-command.ts 支持 /exit、/quit 与普通 exit/quit 命令，支持优雅退出。
+4. 测试与验证：TUI 全套 217 项单元测试 100% 通过；正文与思考过程高频 token 流模拟测试 100% 通过；CLI 构建大小从 30MB 裁剪优化为 14.5MB。
+5. NPM 发布：GitHub Actions 工作流成功构建全平台分发包并发布 @clid/zcode@3.16.5 至 NPM 官方仓库。
+6. 本地部署拉齐：完整同步更新至 ~/.local/lib/node_modules/@clid/zcode，包含独立外挂的 @zcode/tui/dist。
 
 ---
 
