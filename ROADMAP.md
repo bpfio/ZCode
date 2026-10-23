@@ -1,11 +1,14 @@
-# ZCode CLI 增强装配路线图 (Roadmap)
+# ZCode CLI 增强装配路线图 (Roadmap 25项精简黄金版)
 
 本项目是基于官方 ZCode 深度定制与增强的终端 AI 编程工作台（包含 TUI 终端、`zcode --web` 浏览器工作区、Daemon 守护进程与 Agent 运行时），由 `@clid/zcode` 分发。
 
-> **架构原则（用户裁决 2026-10-23）**：
-> 专注纯粹的代码、架构与终端工程体验；**彻底剔除电脑控制类（Computer Use / CUA）模块**，杜绝引入任何桌面键鼠劫持与窗口接管依赖。
+> **架构裁决（用户明确裁决 2026-10-23）**：
+> 1. 彻底剔除电脑控制类（Computer Use / CUA）模块；
+> 2. 彻底剔除 Android 独立 App（`packages/android`）；
+> 3. 坚决不纳入 4 个重型/平台敏感模块（Gen-UI、多媒体渲染、Browser Use、移动端双模拟器）；
+> 4. 100% 聚焦在纯粹的终端代码研发、智谱生态算力与架构工程自动化，打造轻量、坚固、跨平台的黄金发行版。
 
-本路线图系统记录了从 ZCode 源码库中挖掘、待装配激活的 **29 项核心功能模块**，作为后续迭代推进的单一事实源（SSOT）。
+本路线图系统记录了从 ZCode 源码库中挖掘、待装配激活的 **25 项核心功能模块**，作为后续迭代推进的单一事实源（SSOT）。
 
 ---
 
@@ -64,8 +67,8 @@
   - **核心机制**：基于 Node.js 24 原生 SEA 特性，将 Node 运行时、V8 字节码、TUI 和 Agent 打包为单一二进制
   - **终端价值**：免装 Node.js / npm，单文件 `zcode-linux-x64`（268MB）直接放入系统路径运行。
 - [ ] **13. GitHub Releases 资产自动化发布流水线**
-  - **模块定位**：`.github/workflows/cli-distribution.yml`
-  - **核心机制**：CI 自动化打包多平台 SEA 二进制并作为 Release 附件发布。
+  - **模块定位**：`.github/workflows/build-and-publish.yml`
+  - **核心机制**：CI 自动化打包多平台 SEA 二进制并作为 Release 附件发布，内置版本预检防重发保护。
 
 ---
 
@@ -95,44 +98,42 @@
   - **模块定位**：`packages/services/src/bots/` 与 `packages/services/src/bot-project-runtime/`
   - **核心机制**：将 CLI 实例挂载为 Webhook 接收端（GitHub PR / 飞书 / 企业微信）
   - **终端价值**：收到 issue 或 PR 时自动唤醒 Agent 编写代码并提交修复。
-- [ ] **20. 生成式 UI 动态表单交互 (Gen-UI)**
-  - **模块定位**：`packages/services/src/gen-ui/` 与 `packages/ui/`
-  - **核心机制**：TUI 降级为 Ink 多选列表，`zcode --web` 呈现原生 React 富交互表单
-  - **终端价值**：大模型可在会话中直接吐出表单、选择器让用户交互确认。
-- [ ] **21. 多媒体终端渲染与预览 (Media Preview)**
-  - **模块定位**：`packages/services/src/media-preview/` 与 `packages/shared/src/zcode-media-policy.ts`
-  - **核心机制**：Kitty / iTerm2 图形协议支持与 Web 模式图片直出
-  - **终端价值**：在终端直接查看 Agent 生成或抓取的流程图、架构图与界面截图。
 
 ---
 
-## 阶段四：沙箱隔离、运行时服务与扩展套件
+## 阶段四：沙箱隔离、运行时服务与文档套件
 
-- [ ] **22. Dynamic Workflow Git Worktree 隔离沙箱**
+- [ ] **20. Dynamic Workflow Git Worktree 隔离沙箱**
   - **模块定位**：`apps/zcode-cli/packages/dynamic-workflow/src/runtime/script-workflow-runtime.ts`
   - **核心机制**：补全 `WorktreeIsolationPort` 契约，自动创建 `git worktree add -d <sandbox-path>`
   - **终端价值**：多任务/子 Agent 在完全独立的 Git 工作树中运行代码修改与验证，不污染用户主开发分支。
-- [ ] **23. Server Supervisor 后台常驻守护系统 (`zcode server`)**
+- [ ] **21. Server Supervisor 后台常驻守护系统 (`zcode server`)**
   - **模块定位**：`packages/zcode-server-cli/` 与 `apps/zcode-cli/bin/runner.mjs`
   - **核心机制**：在入口分流实现服务生命周期管理
   - **终端价值**：提供 `zcode server status / stop / restart / running-tasks` 守护命令。
-- [ ] **24. Node REPL Host 实时交互沙箱 (`zcode repl`)**
+- [ ] **22. Node REPL Host 实时交互沙箱 (`zcode repl`)**
   - **模块定位**：`apps/zcode-cli/packages/node-repl-host/`
   - **核心机制**：暴露独立 MCP 宿主与 REPL 会话
   - **终端价值**：大模型可在隔离沙箱中即时执行 TypeScript/JavaScript 代码并读取变量上下文。
-- [ ] **25. Dev Docs 本地离线技术手册 (`zcode docs`)**
+- [ ] **23. Dev Docs 本地离线技术手册 (`zcode docs`)**
   - **模块定位**：`apps/dev-docs/`
   - **核心机制**：编译 VitePress 并提供轻量内嵌 HTTP 服务
   - **终端价值**：离线查阅 ZCode CLI 架构文档、插件开发手册与协议规范。
-- [ ] **26. Remote Projects SSH 隧道开发 (`zcode remote`)**
+- [ ] **24. Remote Projects SSH 隧道开发 (`zcode remote`)**
   - **模块定位**：`packages/services/src/remote-projects/`
   - **核心机制**：跨机器 SSH 隧道将远程工作区目录无缝投影至本地 CLI。
-- [ ] **27. Browser Use 无头浏览器控制插件**
-  - **模块定位**：`apps/zcode-cli/packages/browser-use-plugin/`
-  - **核心机制**：默认集成至 CLI，提供 DOM 解析、截屏与自动化测试。
-- [ ] **28. Office Runtime 富文本与文档处理套件**
+- [ ] **25. Office Runtime 富文本与文档处理套件**
   - **模块定位**：`office-runtime` + `documents` / `spreadsheets` / `presentations` / `pdf`
-  - **核心机制**：编译 Office 运行时并集成至 CLI，支持 Word/Excel/PPT/PDF 深度交互。
-- [ ] **29. 移动端双模拟器控制套件**
-  - **模块定位**：`android-emulator-plugin` 与 `ios-simulator-plugin`
-  - **核心机制**：提供 ADB 与 Xcode Simulator 移动端自动化真机/模拟器测试。
+  - **核心机制**：编译 Office 运行时 MCP 资产，支持在终端中读取并提取 Word/Excel/PPT/PDF 纯文本与结构。
+  - **终端价值**：大模型可直接读取并分析 Office 各类文档。
+
+---
+
+## 明确剔除清单（共 6 项）
+
+1. ❌ **Computer Use 电脑控制系统 (`zcode-cua`)**
+2. ❌ **Android 原生移动远程控制 App (`packages/android`)**
+3. ❌ **Gen-UI 动态表单交互**
+4. ❌ **多媒体终端渲染与预览**
+5. ❌ **Browser Use 无头浏览器插件**
+6. ❌ **移动端双模拟器套件 (Android/iOS Simulator)**
