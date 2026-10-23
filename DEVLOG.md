@@ -13,7 +13,7 @@
 
 | ID | 状态 | 类型 | 标题 | commit | 备注 |
 |---|---|---|---|---|---|
-| TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | HEAD | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |
+| TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | 1b52366e | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |
 | TASK-29 | wontfix | feat | [已剔除] 生成式 UI 动态表单交互 (Gen-UI) |  | 用户明确裁决剔除：字符终端无法原生渲染React富交互组件，保持Unix极简原则 |
 | TASK-28 | wontfix | feat | [已剔除] 多媒体终端渲染与预览 |  | 用户明确裁决剔除：多数SSH终端无图形协议支持，强行渲染容易导致满屏Base64乱码 |
 | TASK-27 | wontfix | feat | [已剔除] Browser Use 无头浏览器控制插件 |  | 用户明确裁决剔除：强依赖数百兆Chromium与数十个C动态库，在云服务器或Docker极易崩溃 |
@@ -57,6 +57,17 @@
 
 | ID | 类别 | 状态 | 事项 |
 |---|---|---|---|
+
+---
+
+## [BATCH-02] 研发批次 BATCH-02 — 原地自动升级、NPM v3.16.4 发布与工程能力完备审计 — ✅ 闭环
+
+吸取 bpfio/bi 项目脱离上游与升级失联惨痛教训，制定治理铁律并上线原地自更新系统，审计确认 ZCode 全部核心工程能力 100% 完整继承无折损：
+1. 治理铁律制定：建立 ZCODE_CLI_RULES.md 与 RULE-ZCODE-CLI-01（Upstream-First、微侵入、三不原则、双轨三层、SEA/CI底线），锁定项目发展边界。
+2. 升级机制装配：实现 apps/zcode-cli/packages/cli/src/commands/upgrade-command.ts，通过原生 node:https 查询 registry.npmjs.org/@clid/zcode 最新元数据，支持 check 与 install 原位更新。
+3. 测试与门禁：ecosystem-commands.test.ts 扩充至 20/20 全部通过，架构守卫 0 违规，实测命令正常。
+4. NPM 发布：GitHub Actions 工作流成功构建并发布 @clid/zcode@3.16.4 至 NPM 官方仓库。
+5. 工程能力审计：深度比对验证 8 阶编辑梯队、脏写门禁、Subagent 派生、长程记忆固化等工程核心零折损，明确剥离的 6 项仅为非 CLI 桌面 GUI 壳。
 
 ---
 
