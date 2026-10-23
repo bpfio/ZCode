@@ -196,4 +196,11 @@ export const BUILTIN_ZCODE_SLASH_COMMAND_HELP_ENTRIES: readonly BuiltinZCodeSlas
     summary: "Design and launch a dynamic workflow for a task.",
     usage: "/workflow [what the workflow should accomplish]",
   },
+  {
+    aliases: ["quit"],
+    details: ["Exits the interactive ZCode CLI session."],
+    name: "exit",
+    summary: "Exit the interactive CLI session.",
+    usage: "/exit",
+  },
 ] as const;

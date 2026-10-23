@@ -38,7 +38,18 @@ export function listAvailableCommandNames(options?: SlashCommandSurfaceOptions):
 const SKILL_COMMAND_USAGE = "Usage: /skill [<skill-name> [task]]";
 
 export function parseSlashCommand(input: string): SlashCommand | null {
-  if (!input.startsWith("/")) return null;
+  if (!input.startsWith("/")) {
+    const directCmd = input.trim().toLowerCase();
+    if (directCmd === "exit" || directCmd === "quit") {
+      return {
+        args: "",
+        name: "exit",
+        rawName: directCmd,
+        type: "known",
+      };
+    }
+    return null;
+  }
 
   const trimmed = input.trim();
   const commandEnd = trimmed.search(/\s/);
@@ -46,6 +57,15 @@ export function parseSlashCommand(input: string): SlashCommand | null {
     commandEnd === -1 ? trimmed.slice(1) : trimmed.slice(1, commandEnd)
   ).toLowerCase();
   const args = commandEnd === -1 ? "" : trimmed.slice(commandEnd + 1).trim();
+
+  if (rawName === "exit" || rawName === "quit") {
+    return {
+      args,
+      name: "exit",
+      rawName,
+      type: "known",
+    };
+  }
 
   if (rawName === "compact") {
     return {

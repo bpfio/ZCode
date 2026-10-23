@@ -75,6 +75,16 @@ export function createCommandCenter(deps: CommandCenterDeps): TuiSubmitPrompt {
     }
 
     const result = await (async () => {
+      if (command.name === "exit") {
+        setTimeout(() => {
+          process.exit(0);
+        }, 50);
+        return {
+          mode: deps.getMode?.(),
+          response: "Exiting ZCode. Goodbye!",
+        };
+      }
+
       if (command.name === "help") {
         const customCommands = await listCustomCommandsForHelp(deps);
         return {

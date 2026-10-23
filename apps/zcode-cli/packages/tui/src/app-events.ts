@@ -16,7 +16,7 @@ import type {
   QueuedInput,
 } from "./app-model.js";
 import { contextWindowFromPayload, formatEventError, usageFromPayload } from "./app-event-data.js";
-import { applyModelStreamingEvent } from "./app-model-streaming.js";
+import { applyModelStreamingEvent, flushModelStreamingDeltas } from "./app-model-streaming.js";
 import {
   applyModifiedFileStats,
   modifiedFileStatsFromToolResultPayload,
@@ -51,6 +51,7 @@ type SessionEventHandlers = {
   modifiedFileToolCallIds?: Set<string>;
   toolNamesById: Map<string, string>;
   workspaceDirectory?: string;
+  batch?: boolean;
 };
 
 export function applySessionEventToState(
@@ -58,6 +59,10 @@ export function applySessionEventToState(
   handlers: SessionEventHandlers,
   copy: TuiCopy = DEFAULT_TUI_COPY,
 ): void {
+  if (event.type !== SessionEventType.ModelStreaming) {
+    flushModelStreamingDeltas();
+  }
+
   const payload = asRecord(event.payload);
 
   switch (event.type) {
@@ -109,6 +114,7 @@ export function applySessionEventToState(
         setLiveModelText: handlers.setLiveModelText,
         setMessages: handlers.setMessages,
         setStatus: handlers.setStatus,
+        batch: handlers.batch,
       });
       break;
     case SessionEventType.StreamRecoveryStarted:

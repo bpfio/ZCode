@@ -1,4 +1,8 @@
 #!/usr/bin/env node
+import { enableCompileCache } from "node:module";
+try {
+  enableCompileCache();
+} catch {}
 import { spawn } from "node:child_process";
 import { randomBytes } from "node:crypto";
 import { access, readFile } from "node:fs/promises";

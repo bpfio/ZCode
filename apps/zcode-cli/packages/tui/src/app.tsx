@@ -219,6 +219,7 @@ export function TuiApp({
     modifiedFileToolCallIds: modifiedFileToolCallIdsRef.current,
     toolNamesById: toolNamesByIdRef.current,
     workspaceDirectory: options.workspaceDirectory,
+    batch: true,
   });
 
   const requestPermission = useMemo(
