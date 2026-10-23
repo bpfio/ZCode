@@ -16,7 +16,7 @@ export type StreamingEventHandlers = {
   batch?: boolean;
 };
 
-const STREAMING_FLUSH_INTERVAL_MS = 25; // ~40fps smooth batching window
+const STREAMING_FLUSH_INTERVAL_MS = 40; // ~25fps smooth animation frame window
 
 // Module-level in-flight delta buffers
 const bufferedThoughtDeltas = new Map<string, string>();
@@ -100,9 +100,9 @@ export function applyModelStreamingEvent(
         handlers.setMessages((current) =>
           appendStreamingThoughtDelta(current, assistantMessageId, delta),
         );
+        handlers.setStatus("Streaming model reasoning...");
       }
     }
-    handlers.setStatus("Streaming model reasoning...");
     return;
   }
 
@@ -142,6 +142,7 @@ export function applyModelStreamingEvent(
           handlers.setMessages((current) =>
             appendStreamingTextDelta(current, assistantMessageId, delta),
           );
+          handlers.setStatus("Streaming model response...");
         }
       }
     } else {
@@ -150,9 +151,9 @@ export function applyModelStreamingEvent(
         scheduleFlush(handlers);
       } else {
         handlers.setLiveModelText((current) => `${current}${delta}`);
+        handlers.setStatus("Streaming model response...");
       }
     }
-    handlers.setStatus("Streaming model response...");
     return;
   }
 
