@@ -76,7 +76,10 @@
 3. **测试为王，实测为证**：
    - 任何新增特性必须配备端到端无副作用单元测试，且在本地实测获得 0 退出码后方可提交；
 4. **双端无缝同步**：
-   - 每次提交必须同时推送到 `origin`（`bpfio/ZCode`）与 `zcode-cli`（`bpfio/zcode-cli`），保持两端 100% 实时对齐。
+   - 每次提交必须同时推送到 `origin`（`bpfio/ZCode`）与 `zcode-cli`（`bpfio/zcode-cli`），保持两端 100% 实时对齐；
+5. **母体自动化同步与隔离（Upstream Automated Sync & Failure Guard）**：
+   - 依赖 `.github/workflows/sync-upstream.yml` 每日定时自动化巡检官方母体 `upstream/main`；
+   - 无冲突则自动合并推流并触发 NPM 自动发布；遇冲突时第一时间中止合并并触发 Issue 邮件告警，由人工接入干预，绝对不污染主干。
 
 ---
 
