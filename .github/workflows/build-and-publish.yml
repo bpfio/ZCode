@@ -59,7 +59,14 @@ jobs:
         run: |
           cd dist/npm-package/zcode
           echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
-          npm publish --access public --tag latest --provenance=false
+          PKG_NAME=$(node -p "require('./package.json').name")
+          PKG_VER=$(node -p "require('./package.json').version")
+          if npm view "${PKG_NAME}@${PKG_VER}" version >/dev/null 2>&1; then
+            echo "Version ${PKG_NAME}@${PKG_VER} already exists on NPM registry. Skipping publish step."
+          else
+            echo "Publishing ${PKG_NAME}@${PKG_VER} to NPM..."
+            npm publish --access public --tag latest --provenance=false
+          fi
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
