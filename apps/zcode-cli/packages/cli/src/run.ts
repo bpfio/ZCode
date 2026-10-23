@@ -30,6 +30,25 @@ import { runPrompt } from "./prompt-command.js";
 import { runPluginsCommand, type PluginsCommandFlags } from "./plugins-command.js";
 import { runSkillsCommand } from "./skills-command.js";
 import { runTuiCommand } from "./tui-command.js";
+import { runResetCommand } from "./commands/reset-command.js";
+import { runQuotaCommand } from "./commands/quota-command.js";
+import { runClaimCommand } from "./commands/claim-command.js";
+import { runSpeedupCommand } from "./commands/speedup-command.js";
+import { runIdleCommand } from "./commands/idle-command.js";
+import { runOffersCommand } from "./commands/offers-command.js";
+import { runSyncCommand } from "./commands/sync-command.js";
+import { runTeamCommand } from "./commands/team-command.js";
+import { runShareCommand } from "./commands/share-command.js";
+import { runCronCommand } from "./commands/cron-command.js";
+import { runMemoryCommand } from "./commands/memory-command.js";
+import { runImportCommand } from "./commands/import-command.js";
+import { runBotCommand } from "./commands/bot-command.js";
+import { runWorktreeCommand } from "./commands/worktree-command.js";
+import { runServerCommand } from "./commands/server-command.js";
+import { runReplCommand } from "./commands/repl-command.js";
+import { runDocsCommand } from "./commands/docs-command.js";
+import { runRemoteCommand } from "./commands/remote-command.js";
+import { runOfficeCommand } from "./commands/office-command.js";
 import {
   DEFAULT_CLI_WORKFLOW_MODE,
   normalizeWorkflowModeOption,
@@ -639,6 +658,46 @@ export const run = async (ctx: RunContext, deps: RunDependencies = {}): Promise<
       );
     case "skills":
       return await runSkillsCommand(ctx, options, commandDeps, parsed.positionals.slice(1));
+    case "reset":
+      return await runResetCommand(ctx, options, parsed.positionals.slice(1));
+    case "quota":
+    case "credits":
+      return await runQuotaCommand(ctx, options, parsed.positionals.slice(1));
+    case "claim":
+      return await runClaimCommand(ctx, options, parsed.positionals.slice(1));
+    case "speedup":
+    case "boost":
+      return await runSpeedupCommand(ctx, options, parsed.positionals.slice(1));
+    case "idle":
+      return await runIdleCommand(ctx, options, parsed.positionals.slice(1));
+    case "offers":
+      return await runOffersCommand(ctx, options, parsed.positionals.slice(1));
+    case "sync":
+      return await runSyncCommand(ctx, options, parsed.positionals.slice(1));
+    case "team":
+      return await runTeamCommand(ctx, options, parsed.positionals.slice(1));
+    case "share":
+      return await runShareCommand(ctx, options, parsed.positionals.slice(1));
+    case "cron":
+      return await runCronCommand(ctx, options, parsed.positionals.slice(1));
+    case "memory":
+      return await runMemoryCommand(ctx, options, parsed.positionals.slice(1));
+    case "import":
+      return await runImportCommand(ctx, options, parsed.positionals.slice(1));
+    case "bot":
+      return await runBotCommand(ctx, options, parsed.positionals.slice(1));
+    case "worktree":
+      return await runWorktreeCommand(ctx, options, parsed.positionals.slice(1));
+    case "server":
+      return await runServerCommand(ctx, options, parsed.positionals.slice(1));
+    case "repl":
+      return await runReplCommand(ctx, options, parsed.positionals.slice(1));
+    case "docs":
+      return await runDocsCommand(ctx, options, parsed.positionals.slice(1));
+    case "remote":
+      return await runRemoteCommand(ctx, options, parsed.positionals.slice(1));
+    case "office":
+      return await runOfficeCommand(ctx, options, parsed.positionals.slice(1));
     case "tui":
       return await runTuiCommand(
         ctx,

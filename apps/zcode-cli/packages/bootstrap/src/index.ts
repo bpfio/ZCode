@@ -1,6 +1,11 @@
 // Bootstrap public API surface.
 
 export * from "./app/create-app.js";
+export {
+  OFFICIAL_PLUGIN_DEFINITIONS,
+  DEFAULT_ENABLED_OFFICIAL_PLUGIN_IDS,
+  type OfficialPluginDefinition,
+} from "./app/official-plugin-definitions.js";
 export type {
   ListZCodeSessionsOptions,
   PromptInput,

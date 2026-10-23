@@ -388,6 +388,27 @@ export const OFFICIAL_PLUGIN_DEFINITIONS: readonly OfficialPluginDefinition[] = 
     version: "0.3.0",
   },
   {
+    // TASK-14: 默认激活 Superpowers 顶级编程心法插件
+    defaultEnabled: true,
+    listing: {
+      author: { name: "Prime Radiant", url: "https://primeradiant.com" },
+      category: "productivity",
+      displayName: "Superpowers",
+      displayName_i18n: { "zh-CN": "Superpowers 超能力方法论" },
+      description_i18n: {
+        "zh-CN": "注入顶级 Agentic 软件工程心法：构思、严格红绿 TDD、两阶段审查、系统化 Debug 与完工核验。",
+      },
+    },
+    name: "superpowers",
+    rootCandidates: [
+      "packages/superpowers-plugin",
+      "../superpowers-plugin",
+      "../../superpowers-plugin",
+      "../../../superpowers-plugin",
+    ],
+    version: "0.1.0",
+  },
+  {
     // 产品决策：电脑控制回退为默认关闭，需用户在设置页显式开启。
     // 因此这里不声明 defaultEnabled——computer-use 携带 MCP server 与系统 Helper 依赖，
     // 默认开启意味着每个新用户首启即注入整套工具集并拉起 Helper。
