@@ -1,0 +1,91 @@
+name: Sync Upstream & Auto Publish
+
+on:
+  schedule:
+    # 每天 UTC 02:00 (北京时间 10:00) 自动定时巡检同步
+    - cron: '0 2 * * *'
+  # 支持在 GitHub 页面一键手动触发
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  pull-requests: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure Git Author
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add Upstream and Fetch
+        run: |
+          git remote add upstream https://github.com/zai-org/ZCode.git || true
+          git fetch upstream main --tags
+
+      - name: Check for Upstream Commits
+        id: check_upstream
+        run: |
+          UPSTREAM_REV=$(git rev-parse upstream/main)
+          MERGE_BASE=$(git merge-base HEAD upstream/main)
+          if [ "$UPSTREAM_REV" = "$MERGE_BASE" ]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+            echo "Already up-to-date with upstream. No sync needed."
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+            echo "New upstream commits detected in zai-org/ZCode."
+          fi
+
+      - name: Attempt Automatic Merge
+        id: merge_step
+        if: steps.check_upstream.outputs.has_changes == 'true'
+        run: |
+          if git merge upstream/main -m "chore(upstream): auto-sync latest from zai-org/ZCode"; then
+            echo "merge_status=success" >> $GITHUB_OUTPUT
+            echo "Merge succeeded cleanly without conflicts."
+          else
+            echo "merge_status=conflict" >> $GITHUB_OUTPUT
+            git merge --abort
+            echo "Merge conflict detected! Aborted merge to protect main branch."
+          fi
+
+      - name: Push to Main Branches on Success
+        if: steps.check_upstream.outputs.has_changes == 'true' && steps.merge_step.outputs.merge_status == 'success'
+        run: |
+          git push origin main
+          # 同步推送到专有镜像 (如果配置了镜像 remote)
+          if git remote get-url zcode-cli >/dev/null 2>&1; then
+            git push zcode-cli main || true
+          fi
+
+      - name: Create Issue and Alert on Conflict (Triggers Email)
+        if: steps.check_upstream.outputs.has_changes == 'true' && steps.merge_step.outputs.merge_status == 'conflict'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: '🚨 [Upstream Sync Conflict] 上游官方代码同步发生冲突，需人工干预',
+              body: [
+                '## ⚠️ 上游母体同步合并冲突告警',
+                '',
+                'GitHub Actions 自动定时同步 `zai-org/ZCode` 主干代码时检测到代码冲突。',
+                '',
+                '- **保护机制已触发**：已自动执行 `git merge --abort`，当前 `main` 分支未受任何污染；',
+                '- **需要人工介入**：请维护人员在本地拉取代码并手动合并 `upstream/main` 解决冲突后推流。',
+                '',
+                '> 此工单创建已自动向仓库全体维护人员触发 GitHub 高优先级邮件告警。'
+              ].join('\n')
+            });
+            core.setFailed('上游同步发生代码冲突，已中止合并并发送邮件告警，请人工介入。');

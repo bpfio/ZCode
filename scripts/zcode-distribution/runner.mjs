@@ -264,6 +264,7 @@ try {
     }
     // CLI 自启动子进程依赖 argv[1]；统一指向真正的 Agent 入口，保留 TTY 与所有原始参数。
     process.argv[1] = agentEntry;
+    process.env.ZCODE_CLI_VERSION = version;
     await import(pathToFileURL(agentEntry).href);
   }
 } catch (error) {
