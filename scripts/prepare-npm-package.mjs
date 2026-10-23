@@ -29,9 +29,7 @@ if (fs.existsSync(nmDir)) {
 }
 
 pkg.name = "@bpfio-yp/zcode";
-if (pkg.version === "3.16.2") {
-  pkg.version = "3.16.2-1";
-}
+pkg.version = "3.16.3";
 pkg.private = false;
 pkg.description = "Official full-featured ZCode AI Coding Workbench (TUI, Web & Agent Runtime)";
 // npm 11+ 要求 bin 相对路径不能以 ./ 开头，否则会在 publish 阶段被自动剥离
