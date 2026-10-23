@@ -886,3 +886,27 @@ exceptions:
       - packages/ui/src/settings/DynamicWorkflowModeSetting.tsx
       - packages/ui/src/store/dynamicWorkflowAvailabilityStore.ts
     reason: Admitted upstream files edited only to let the user's dynamic workflow mode choice always win and keep the settings row visible; adopting packages/shared/src and packages/ui/src needs a separate module boundary refactor.
+  - id: ecosystem-cli-subcommands
+    rule: unmanaged-new-file
+    paths:
+      - apps/zcode-cli/packages/cli/src/commands/bot-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/claim-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/cron-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/docs-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/idle-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/import-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/memory-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/offers-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/office-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/quota-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/remote-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/repl-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/reset-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/server-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/share-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/speedup-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/sync-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/team-command.ts
+      - apps/zcode-cli/packages/cli/src/commands/worktree-command.ts
+      - apps/zcode-cli/packages/cli/src/ecosystem/coding-plan-client.ts
+    reason: ZCode CLI ecosystem and runtime expansion subcommands implementing the 25-module Golden Plan.
