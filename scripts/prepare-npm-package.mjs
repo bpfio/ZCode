@@ -28,8 +28,35 @@ if (fs.existsSync(nmDir)) {
   }
 }
 
+// 动态版本号逻辑：
+// 1. 如果环境变量指定了 ZCODE_RELEASE_VERSION，则以此为准；
+// 2. 否则读取基础版本（默认 3.16.5）；
+// 3. 校验 npm 线上版本：若该基础版本已存在于 npm，则自动自增 patch（例如 3.16.5 -> 3.16.6），
+//    确保 CI 无人值守推送时永远具备发布能力，无需人工频繁手动改动代码。
+let releaseVersion = process.env.ZCODE_RELEASE_VERSION;
+if (!releaseVersion) {
+  const baseVersion = "3.16.5";
+  try {
+    const { execSync } = await import("node:child_process");
+    const published = execSync("npm view @clid/zcode version", {
+      encoding: "utf8",
+      timeout: 5000,
+      stdio: ["pipe", "pipe", "ignore"],
+    }).trim();
+    if (published === baseVersion || (published && /^\d+\.\d+\.\d+$/.test(published))) {
+      const parts = (published === baseVersion ? baseVersion : published).split(".").map(Number);
+      parts[2] += 1;
+      releaseVersion = parts.join(".");
+    } else {
+      releaseVersion = baseVersion;
+    }
+  } catch {
+    releaseVersion = baseVersion;
+  }
+}
+
 pkg.name = "@clid/zcode";
-pkg.version = "3.16.5";
+pkg.version = releaseVersion;
 pkg.private = false;
 pkg.description = "Official full-featured ZCode AI Coding Workbench (TUI, Web & Agent Runtime)";
 // npm 11+ 要求 bin 相对路径不能以 ./ 开头，否则会在 publish 阶段被自动剥离

@@ -9,10 +9,11 @@
 
 ---
 
-## 一、任务台账 (31)
+## 一、任务台账 (32)
 
 | ID | 状态 | 类型 | 标题 | commit | 备注 |
 |---|---|---|---|---|---|
+| TASK-33 | closed | feat | GitHub CI 双仓库 409 容错、思考实时字数指示器、宿主机命令路径对齐与动态版本感知 | HEAD | CI race 409 safe, thought char counter, /usr/local/bin symlink updated, dynamic patch bump |
 | TASK-32 | closed | perf | 优化 TUI 流式打字机 40ms 批处理、消除冗余 setStatus、启用 V8 编译磁盘缓存并补齐 /exit 命令 | 6bf14d6f | 40ms batching & reasoning verified, 217/217 TUI tests pass, npm v3.16.5 published |
 | TASK-31 | closed | feat | 上游母体 7x24h 自动化同步巡检工作流与邮件告警机制 (.github/workflows/sync-upstream.yml) | 0fcfaf5c | cron daily, merge isolation, Issue & failure email alert, 20/20 tests passing |
 | TASK-30 | closed | feat | 全自动版本感知与一键原地升级系统 (zcode upgrade / zcode update) | 1b52366e | node:https NPM registry check, auto-spawn npm/binary updater, unit tests passing |

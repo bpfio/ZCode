@@ -42,6 +42,7 @@ export function ThoughtTranscriptPartFrame({
 }): React.ReactElement {
   const label = thoughtPlaceholderLabel(part, copy);
   const marker = expanded ? EXPANDED_MARKER : COLLAPSED_MARKER;
+  const countSuffix = part.contentCharCount > 0 ? ` (${part.contentCharCount} chars)` : "";
 
   return h(
     "box",
@@ -61,7 +62,7 @@ export function ThoughtTranscriptPartFrame({
         selectable: false,
         style: { fg: part.status === "thinking" ? palette.accent : palette.muted },
       },
-      `${marker} ${label}`,
+      `${marker} ${label}${countSuffix}`,
     ),
     ...(expanded
       ? [

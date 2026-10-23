@@ -65,7 +65,14 @@ jobs:
             echo "Version ${PKG_NAME}@${PKG_VER} already exists on NPM registry. Skipping publish step."
           else
             echo "Publishing ${PKG_NAME}@${PKG_VER} to NPM..."
-            npm publish --access public --tag latest --provenance=false
+            if ! npm publish --access public --tag latest --provenance=false; then
+              if npm view "${PKG_NAME}@${PKG_VER}" version >/dev/null 2>&1; then
+                echo "Notice: ${PKG_NAME}@${PKG_VER} was published concurrently by companion repository. Marking as success."
+              else
+                echo "Error: Failed to publish ${PKG_NAME}@${PKG_VER} to NPM registry." >&2
+                exit 1
+              fi
+            fi
           fi
 
       - name: Upload Artifacts
