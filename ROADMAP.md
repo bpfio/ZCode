@@ -2,7 +2,10 @@
 
 本项目是基于官方 ZCode 深度定制与增强的终端 AI 编程工作台（包含 TUI 终端、`zcode --web` 浏览器工作区、Daemon 守护进程与 Agent 运行时），由 `@clid/zcode` 分发。
 
-本路线图系统记录了从 ZCode 源码库中挖掘、待装配激活的 **30 项核心功能模块**，作为后续迭代推进的单一事实源（SSOT）。
+> **架构原则（用户裁决 2026-10-23）**：
+> 专注纯粹的代码、架构与终端工程体验；**彻底剔除电脑控制类（Computer Use / CUA）模块**，杜绝引入任何桌面键鼠劫持与窗口接管依赖。
+
+本路线图系统记录了从 ZCode 源码库中挖掘、待装配激活的 **29 项核心功能模块**，作为后续迭代推进的单一事实源（SSOT）。
 
 ---
 
@@ -66,7 +69,7 @@
 
 ---
 
-## 阶段三：高级工程方法论、自动化与持久化（全新纳入）
+## 阶段三：高级工程方法论、自动化与持久化
 
 - [ ] **14. Superpowers 顶级编程心法与工程方法论插件**
   - **模块定位**：`apps/zcode-cli/packages/superpowers-plugin/`
@@ -127,12 +130,9 @@
 - [ ] **27. Browser Use 无头浏览器控制插件**
   - **模块定位**：`apps/zcode-cli/packages/browser-use-plugin/`
   - **核心机制**：默认集成至 CLI，提供 DOM 解析、截屏与自动化测试。
-- [ ] **28. Computer Use 电脑控制系统 (`zcode-cua`)**
-  - **模块定位**：`packages/zcode-cua/` 与 `zcode-cua-plugin`
-  - **核心机制**：接入真实操作系统原生 Helper，激活鼠标键盘自动化操作。
-- [ ] **29. Office Runtime 富文本与文档处理套件**
+- [ ] **28. Office Runtime 富文本与文档处理套件**
   - **模块定位**：`office-runtime` + `documents` / `spreadsheets` / `presentations` / `pdf`
   - **核心机制**：编译 Office 运行时并集成至 CLI，支持 Word/Excel/PPT/PDF 深度交互。
-- [ ] **30. 移动端双模拟器控制套件**
+- [ ] **29. 移动端双模拟器控制套件**
   - **模块定位**：`android-emulator-plugin` 与 `ios-simulator-plugin`
   - **核心机制**：提供 ADB 与 Xcode Simulator 移动端自动化真机/模拟器测试。
