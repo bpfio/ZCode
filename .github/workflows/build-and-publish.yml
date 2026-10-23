@@ -44,6 +44,7 @@ jobs:
 
       - name: Build Standalone SEA Binary (Linux x64)
         run: |
+          pnpm -r --filter "./apps/zcode-cli/packages/*" build
           pnpm --filter @zcode/cli sea --target linux-x64
 
       - name: Prepare NPM Package
