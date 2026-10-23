@@ -1,0 +1,66 @@
+name: Build and Publish ZCode
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  packages: write
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10.33.2
+
+      - name: Setup Node.js 24
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24.14.0
+          registry-url: 'https://registry.npmjs.org'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: |
+          pnpm install --frozen-lockfile
+
+      - name: Build Full ZCode Distribution (TUI + Web + Agent + Server)
+        run: |
+          pnpm build:zcode --base-url https://downloads.example.com/zcode/
+
+      - name: Build Standalone SEA Binary (Linux x64)
+        run: |
+          pnpm --filter @zcode/cli sea --target linux-x64
+
+      - name: Prepare NPM Package
+        run: |
+          mkdir -p dist/npm-package
+          tar -xzf dist/zcode/releases/*/*.tar.gz -C dist/npm-package
+          node scripts/prepare-npm-package.mjs
+
+      - name: Publish to NPM
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          cd dist/npm-package/zcode
+          echo "//registry.npmjs.org/:_authToken=${NODE_AUTH_TOKEN}" > .npmrc
+          npm publish --access public --provenance=false
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: zcode-linux-artifacts
+          path: |
+            dist/zcode/releases/*/*.tar.gz
+            dist/zcode/releases/*/sha256.txt
+            apps/zcode-cli/packages/cli/dist/zcode-linux-x64
